@@ -1,9 +1,39 @@
 # 📋 Questionnaire interactif en Streamlit
 
+# link : https://questionnairerecuperation-ukukyvl5ihefzuv5fajy7n.streamlit.app/
+
 import streamlit as st
 import pandas as pd
 import os
 from datetime import datetime
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+import json
+from io import StringIO
+
+def save_to_google_sheets(data: dict):
+    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+    
+
+    creds_dict = json.loads(st.secrets["GOOGLE_SHEETS_CREDENTIALS"])
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+    client = gspread.authorize(creds)
+
+    # URL de TA feuille Google Sheets (remplace par la tienne)
+    sheet = client.open_by_url("https://docs.google.com/spreadsheets/d/1OaZAif6W_dVp6ScCc9VAG-tH6DNpJNpxp2EsbqEpi4w/edit")
+    worksheet = sheet.sheet1
+
+    # Ajouter l'en-tête si première fois
+    if worksheet.row_count == 0:
+        worksheet.append_row(list(data.keys()))
+
+    # Ajouter la réponse
+    row = [str(data.get(k, "")) for k in data.keys()]
+    worksheet.append_row(row)
+
+######################################################
+################## QUESTIONNAIRE #####################
+######################################################
 
 st.set_page_config(page_title="Questionnaire - Récupération Sportive")
 st.title("Questionnaire sur la récupération sportive")
@@ -23,11 +53,11 @@ def save_response(data):
 reponses = {"timestamp": datetime.now().isoformat()}
 
 # Q1
-statut = st.radio("1. Quel est votre statut ?", ["Athlète", "Entraîneur", "Membre d'un staff"])
+statut = st.radio("1. 1-Quel est votre statut ?", ["Athlète", "Entraîneur", "Membre d'un staff"])
 reponses["Statut"] = statut
 
 # Q2
-sport = st.radio("2. Quel est votre sport principal ?", [
+sport = st.radio("2. 2-Quel est votre sport principal ?", [
     "Athlétisme", "Aviron", "Badminton", "Basketball", "Boxe Anglaise", "Breaking",
     "Canoë Kayak", "Escrime", "Gymnastique", "Haltérophilie", "Handisport", "Judo",
     "Lutte", "Natation", "Pentathlon moderne", "Taekwendo", "Tennis de table",
@@ -63,7 +93,7 @@ reponses["Importance récup"] = importance
 if statut == "Athlète":
     reponses["Branche"] = "Athlète"
     reponses["Note sommeil /10"] = st.slider("8. Comment estimez-vous vos habitudes de sommeil ?", 1, 10)
-    reponses["Note alimentation /10"] = st.slider("9. Comment estimez-vous vos habitudes nutrition/hydratation ?", 1, 10)
+    reponses["Note alimentation /10"] = st.slider("9. Comment estimez-vous vos habitudes en terme de nutrition/hydratation ?", 1, 10)
 
     techniques = st.radio("10. Quelles techniques de récupération utilisez-vous parmi celles ci-dessous ?", [
         "Rouleau de massage", "Pistolet de massage", "Bains", "Cryothérapie",
@@ -126,5 +156,6 @@ reponses["Commentaires"] = commentaire
 
 # Bouton d'envoi
 if st.button("Envoyer mes réponses"):
-    save_response(reponses)
+    #save_response(reponses)
+    save_to_google_sheets(reponses)
     st.success("Merci pour votre participation ! 🎉")
