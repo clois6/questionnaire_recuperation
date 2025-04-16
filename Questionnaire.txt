@@ -1,0 +1,26 @@
+Q1 - Quel est votre statut ?
+→ Type : Choix multiples (une seule réponse possible)
+→ Réponses possibles : a-Athlète ; b-Entraîneur ; c-Membre d'un staff
+→ Redirection : vers Q2
+
+Q2 - Quel est votre sport principal ?
+→ Type : Choix multiples (une seule réponse possible)
+→ Réponses possibles : a-Athlétisme ; b-Aviron ; c-Badminton ; d-Basketball ; e-Boxe Anglaise ; f-Breaking ; g-Canoë Kayak ; h-Escrime ; i-Gymnastique ; j-Haltérophilie ; k-Handisport ; l-Judo ; m-Lutte ; n-Natation ; o-Pentathlon moderne ; p-Taekwendo ; q-Tennis de table ; r-Tir ; s-Tir à l'arc ; t-Autre
+→ Redirection : vers Q3 si réponse "t-Autre", vers Q4 sinon
+
+Q3 - Vous avez répondu "Autre" à la question précédente. Précisez svp.
+→ Type : Réponse écrite
+→ Redirection : vers Q4
+
+Q4 - Quel est votre tranche d'âge ? 
+→ Type : Choix multiples (une seule réponse possible)
+→ Réponses possibles : a-Moins de 18 ans ; b-Entre 18 et 25 ans ; c-Entre 26 et 30 ans ; d-Entre 31 et 35 ans ; e-36 ans ou plus
+→ Redirection : vers Q5
+
+Q5 - Comment évaluez-vous vos connaissances en matière de récupération sportive ?
+→ Type : Echelle de 1 (très mauvaises) à 10 (excellentes)
+→ Redirection : vers Q6
+
+Q6 - Selon vous, quels sont les éléments essentiels de la récupération ?
+→ Type : Ordonner du plus important au moins important
+→ Réponses possibles : a-Nutrition ; b-Méditation ; c-Étirements ; d-Hydratation ; e-Massage ; f-Sommeil ; g-Récupération active ; h-Electrostimulation ; i - Techniques d'immersion
